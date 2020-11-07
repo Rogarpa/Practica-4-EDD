@@ -194,11 +194,12 @@ public class ArbolRojinegro<T extends Comparable<T>>
         else hijastro = (VerticeRojinegro)encontrado.derecho;
         eliminaVertice(encontrado);
         
-        //
+        //1
         if(esRojo(hijastro)){
-            hijastro.color = Color.ROJO;
+            hijastro.color = Color.NEGRO;
             return;
         }
+        //2
         if(esRojo((VerticeRojinegro)encontrado)) return;
         
         balanceoElimina((VerticeRojinegro)hijastro);
@@ -208,9 +209,11 @@ public class ArbolRojinegro<T extends Comparable<T>>
     private void balanceoElimina(VerticeRojinegro v){
         //Caso 1 padre vacio
         if(v.padre == null) return;
-        //Caso 2 hermano no vacio 
+
+        //Caso 2 hermano no vacio puesto tenia hermano negro y giramos para dar tela para cortar a v. 
         VerticeRojinegro h,p = (VerticeRojinegro)v.padre;
 
+        //defino h
         if(p.izquierdo == v) h = (VerticeRojinegro)p.derecho;
         else h = (VerticeRojinegro)p.izquierdo;
 
@@ -219,29 +222,31 @@ public class ArbolRojinegro<T extends Comparable<T>>
             h.color = Color.NEGRO;
             if(p.derecho == v) giraDerecha(p);
             else giraIzquierda(p);
-    
+            
+            //reactualizando hermano
             if(p.izquierdo == v) h = (VerticeRojinegro)p.derecho;
             else h = (VerticeRojinegro)p.izquierdo;
         }
          
-        //Caso 3 concatenado
-        
+        //Caso 3 caso amplio en el cual quitamos un negro rama h pero compensamos recursivamente en p.
+        //no necesita de anteriores.
         VerticeRojinegro hi,hd;
         hi = (VerticeRojinegro)h.izquierdo;
         hd = (VerticeRojinegro)h.derecho;
-        if(!esRojo(p) && !esRojo(h) && esRojo(hi) && esRojo(hd)){
+
+        if(!esRojo(p) && !esRojo(h) && !esRojo(hi) && !esRojo(hd)){
             h.color = Color.ROJO;
             balanceoElimina(p);
             return;
         }
-        //Caso4 
+        //Caso4 p nos da material para compensar y pintar h de rojo así que cambiamos.
         if(!esRojo(h) && !esRojo(hi) && !esRojo(hd) && esRojo(p)){
             h.color = Color.ROJO;
             p.color = Color.NEGRO;
             return;
         }
 
-        //Caso5
+        //Caso5 quitamos negro de h con táctica conocida.
         if(p.izquierdo == v && esRojo(hi) && !esRojo(hd) 
         || p.derecho == v && !esRojo(hi) && esRojo(hd)){
             h.color = Color.ROJO;
@@ -249,7 +254,8 @@ public class ArbolRojinegro<T extends Comparable<T>>
             else hd.color = Color.NEGRO;
             if(p.izquierdo == v) giraDerecha(h);
             else giraIzquierda(h);
-            
+           
+            //reactualizando hermano
             if(v.padre.izquierdo == v) h = (VerticeRojinegro)v.padre.izquierdo;
             else h = (VerticeRojinegro)v.padre.derecho;
         }
