@@ -106,7 +106,7 @@ public class ArbolRojinegro<T extends Comparable<T>>
     }
 
     private boolean esRojo(VerticeRojinegro v){
-        return (v == null && v.color == Color.ROJO);
+        return (v != null && v.color == Color.ROJO);
     }
 
     /**
@@ -141,25 +141,34 @@ public class ArbolRojinegro<T extends Comparable<T>>
         else t = (VerticeRojinegro)a.izquierdo;
 
         if(esRojo(t)){
-            t.color = Color.ROJO;
-            p.color = Color.ROJO;
+            t.color = Color.NEGRO;
+            p.color = Color.NEGRO;
+            a.color = Color.ROJO;
             balanceoAgrega(a);
             return;
         }
         //CASO4 (ignoramos t y hay cruzados)
-        if(a.izquierdo == p && p.derecho == v) giraIzquierda(p);
-        if(a.derecho == p && p.izquierdo == v) giraDerecha(p);
-
+        //MEJORABLE
         VerticeRojinegro aux;
-        aux = p;
-        p = v;
-        v = aux;
+        if(a.izquierdo == p && p.derecho == v){
+            super.giraIzquierda(p);
+            aux = p;
+            p = v;
+            v = aux;
+        }
+
+        if(a.derecho == p && p.izquierdo == v){
+            super.giraDerecha(p);
+            aux = p;
+            p = v;
+            v = aux;
+        }
 
         //CASOFINAL (giramos cruzados)
         p.color = Color.NEGRO;
         a.color = Color.ROJO;
-        if(p.izquierdo == v) giraDerecha(a);
-        if(p.derecho == v) giraIzquierda(a);
+        if(p.izquierdo == v) super.giraDerecha(a);
+        if(p.derecho == v) super.giraIzquierda(a);
 
     }
 
