@@ -211,7 +211,8 @@ public class ArbolRojinegro<T extends Comparable<T>>
 
 
         if(hijastro.elemento == null){
-            if(hijastro.padre.izquierdo == hijastro) hijastro.padre.izquierdo = null;
+            if(hijastro.padre == null) raiz = null;
+            else if(hijastro.padre.izquierdo == hijastro) hijastro.padre.izquierdo = null;
             else hijastro.padre.derecho = null;
         }
         
