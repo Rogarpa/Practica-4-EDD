@@ -203,10 +203,17 @@ public class ArbolRojinegro<T extends Comparable<T>>
         if(esRojo((VerticeRojinegro)encontrado)) return;
         
         balanceoElimina((VerticeRojinegro)hijastro);
-        eliminaVertice(vertice(busca(null))); 
+        
+        if(hijastro.elemento == null){
+            if(hijastro.padre == null) raiz = null;
+            else{if(hijastro.padre.izquierdo == hijastro) hijastro.padre.izquierdo = null;
+                else hijastro.padre.derecho = null;
+            }
+        }
     }
 
-    private void balanceoElimina(VerticeRojinegro v){
+    private void balanceoElimina    (VerticeRojinegro v){
+        if(v == null) return;
         //Caso 1 padre vacio
         if(v.padre == null) return;
 
