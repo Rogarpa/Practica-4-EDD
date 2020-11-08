@@ -40,6 +40,8 @@ public class ArbolRojinegro<T extends Comparable<T>>
          * @return una representación en cadena del vértice rojinegro.
          */
         public String toString() {
+            if(color == Color.ROJO && elemento == null) return "R{" + "null" + "}";  
+            if(color == Color.NEGRO && elemento == null) return "N{" + "null" + "}";  
             if(color == Color.ROJO) return "R{" + elemento.toString() + "}";  
             else return "N{" + elemento.toString() + "}";  
 
@@ -204,11 +206,9 @@ public class ArbolRojinegro<T extends Comparable<T>>
         if(esRojo(hijastro)) hijastro.color = Color.NEGRO;
         
         //3
-        else if(!esRojo((VerticeRojinegro)encontrado) && !esRojo((VerticeRojinegro)encontrado.padre)) balanceoElimina((VerticeRojinegro)hijastro);
-        
+        else if(!(esRojo((VerticeRojinegro)encontrado))) balanceoElimina((VerticeRojinegro)hijastro);
         //2 no necesario
         //else if(esRojo((VerticeRojinegro)encontrado)) System.out.println("esrojo");
-
 
         if(hijastro.elemento == null){
             if(hijastro.padre == null) raiz = null;
@@ -221,6 +221,7 @@ public class ArbolRojinegro<T extends Comparable<T>>
     private void balanceoElimina(VerticeRojinegro v){
         if(v == null) return;
         //Caso 1 padre vacio
+
         if(v.padre == null) return;
 
         //Caso 2 hermano no vacio puesto tenia hermano negro y giramos para dar tela para cortar a v. 
@@ -279,8 +280,8 @@ public class ArbolRojinegro<T extends Comparable<T>>
         if(v.padre.izquierdo == v) ((VerticeRojinegro)h.derecho).color = Color.NEGRO;
         else ((VerticeRojinegro)h.izquierdo).color = Color.NEGRO;
 
-        if(v.padre.izquierdo == v) super.giraDerecha(p);
-        else super.giraIzquierda(p);
+        if(v.padre.izquierdo == v) super.giraIzquierda(p);
+        else super.giraDerecha(p);
     }
 
     /**
