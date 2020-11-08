@@ -40,10 +40,6 @@ public class ArbolRojinegro<T extends Comparable<T>>
          * @return una representación en cadena del vértice rojinegro.
          */
         public String toString() {
-            //QUITAR
-            if(color == Color.ROJO && elemento == null) return "R{" + "null" + "}";  
-            if(color == Color.NEGRO && elemento == null) return "N{" + "null" + "}";  
-
             if(color == Color.ROJO) return "R{" + elemento.toString() + "}";  
             else return "N{" + elemento.toString() + "}";  
 
