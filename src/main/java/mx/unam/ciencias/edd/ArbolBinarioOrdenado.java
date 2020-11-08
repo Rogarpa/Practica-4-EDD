@@ -168,7 +168,6 @@ aux = aux.derecho;
     protected Vertice intercambiaEliminable(Vertice vertice) {
         Vertice max = maximoensubarbol(vertice.izquierdo);
 
-        System.out.println("Maximo es" + max);
         T aux;
         aux = max.elemento;
         max.elemento = vertice.elemento;

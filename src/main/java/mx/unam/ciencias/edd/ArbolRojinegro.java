@@ -233,8 +233,8 @@ public class ArbolRojinegro<T extends Comparable<T>>
         if(esRojo(h)){
             p.color =  Color.ROJO;
             h.color = Color.NEGRO;
-            if(p.derecho == v) giraDerecha(p);
-            else giraIzquierda(p);
+            if(p.derecho == v) super.giraDerecha(p);
+            else super.giraIzquierda(p);
             
             //reactualizando hermano
             if(p.izquierdo == v) h = (VerticeRojinegro)p.derecho;
@@ -265,8 +265,8 @@ public class ArbolRojinegro<T extends Comparable<T>>
             h.color = Color.ROJO;
             if(esRojo(hi)) hi.color = Color.NEGRO;
             else hd.color = Color.NEGRO;
-            if(p.izquierdo == v) giraDerecha(h);
-            else giraIzquierda(h);
+            if(p.izquierdo == v) super.giraDerecha(h);
+            else super.giraIzquierda(h);
            
             //reactualizando hermano
             if(v.padre.izquierdo == v) h = (VerticeRojinegro)v.padre.izquierdo;
@@ -279,8 +279,8 @@ public class ArbolRojinegro<T extends Comparable<T>>
         if(v.padre.izquierdo == v) ((VerticeRojinegro)h.derecho).color = Color.NEGRO;
         else ((VerticeRojinegro)h.izquierdo).color = Color.NEGRO;
 
-        if(v.padre.izquierdo == v) giraDerecha(p);
-        else giraIzquierda(p);
+        if(v.padre.izquierdo == v) super.giraDerecha(p);
+        else super.giraIzquierda(p);
     }
 
     /**
