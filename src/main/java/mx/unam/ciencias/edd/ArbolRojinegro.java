@@ -40,6 +40,10 @@ public class ArbolRojinegro<T extends Comparable<T>>
          * @return una representación en cadena del vértice rojinegro.
          */
         public String toString() {
+            //QUITAR
+            if(color == Color.ROJO && elemento == null) return "R{" + "null" + "}";  
+            if(color == Color.NEGRO && elemento == null) return "N{" + "null" + "}";  
+
             if(color == Color.ROJO) return "R{" + elemento.toString() + "}";  
             else return "N{" + elemento.toString() + "}";  
 
@@ -186,33 +190,38 @@ public class ArbolRojinegro<T extends Comparable<T>>
 
         if(encontrado.izquierdo != null && encontrado.derecho != null)
             encontrado = intercambiaEliminable(encontrado);
-        if(encontrado.izquierdo == null && encontrado.derecho == null)
-            encontrado.izquierdo = new Vertice(null);
+        if(encontrado.izquierdo == null && encontrado.derecho == null){
+            VerticeRojinegro fantasma = new VerticeRojinegro(null);
+            fantasma.color = Color.NEGRO;
+            encontrado.izquierdo = fantasma;
+            fantasma.padre = encontrado;
+        }
         
         VerticeRojinegro hijastro;
-        if(encontrado.derecho == null) hijastro = (VerticeRojinegro)encontrado.derecho;
+        if(encontrado.derecho == null) hijastro = (VerticeRojinegro)encontrado.izquierdo;
         else hijastro = (VerticeRojinegro)encontrado.derecho;
+        
         eliminaVertice(encontrado);
         
+        //casos aislados
         //1
-        if(esRojo(hijastro)){
-            hijastro.color = Color.NEGRO;
-            return;
-        }
-        //2
-        if(esRojo((VerticeRojinegro)encontrado)) return;
+        if(esRojo(hijastro)) hijastro.color = Color.NEGRO;
         
-        balanceoElimina((VerticeRojinegro)hijastro);
+        //3
+        else if(!esRojo((VerticeRojinegro)encontrado) && !esRojo((VerticeRojinegro)encontrado.padre)) balanceoElimina((VerticeRojinegro)hijastro);
         
+        //2 no necesario
+        //else if(esRojo((VerticeRojinegro)encontrado)) System.out.println("esrojo");
+
+
         if(hijastro.elemento == null){
-            if(hijastro.padre == null) raiz = null;
-            else{if(hijastro.padre.izquierdo == hijastro) hijastro.padre.izquierdo = null;
-                else hijastro.padre.derecho = null;
-            }
+            if(hijastro.padre.izquierdo == hijastro) hijastro.padre.izquierdo = null;
+            else hijastro.padre.derecho = null;
         }
+        
     }
 
-    private void balanceoElimina    (VerticeRojinegro v){
+    private void balanceoElimina(VerticeRojinegro v){
         if(v == null) return;
         //Caso 1 padre vacio
         if(v.padre == null) return;
