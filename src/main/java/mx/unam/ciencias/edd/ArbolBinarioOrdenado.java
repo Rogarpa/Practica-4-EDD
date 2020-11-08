@@ -194,7 +194,7 @@ aux = aux.derecho;
             return;
         }
         
-        if(vertice.equals(vertice.padre.izquierdo))   vertice.padre.izquierdo = hijo;
+        if(vertice == vertice.padre.izquierdo) vertice.padre.izquierdo = hijo;
         else vertice.padre.derecho = hijo;
         
         if(hijo != null) hijo.padre = vertice.padre;  
