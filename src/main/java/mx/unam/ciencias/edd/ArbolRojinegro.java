@@ -261,24 +261,26 @@ public class ArbolRojinegro<T extends Comparable<T>>
         }
 
         //Caso5 quitamos negro de h con táctica conocida.
-        if(p.izquierdo == v && esRojo(hi) && !esRojo(hd) 
-        || p.derecho == v && !esRojo(hi) && esRojo(hd)){
+        if((p.izquierdo == v && esRojo(hi) && !esRojo(hd)) 
+        || (p.derecho == v && !esRojo(hi) && esRojo(hd))){
             h.color = Color.ROJO;
             if(esRojo(hi)) hi.color = Color.NEGRO;
             else hd.color = Color.NEGRO;
+
             if(p.izquierdo == v) super.giraDerecha(h);
             else super.giraIzquierda(h);
            
             //reactualizando hermano
-            if(v.padre.izquierdo == v) h = (VerticeRojinegro)v.padre.izquierdo;
-            else h = (VerticeRojinegro)v.padre.derecho;
+            if(v.padre.izquierdo == v) h = (VerticeRojinegro)v.padre.derecho;
+            else h = (VerticeRojinegro)v.padre.izquierdo;
         }
 
         //Caso 6 
+        //solucionar hi y hd
         h.color = p.color;
         p.color = Color.NEGRO;
-        if(v.padre.izquierdo == v) ((VerticeRojinegro)h.derecho).color = Color.NEGRO;
-        else ((VerticeRojinegro)h.izquierdo).color = Color.NEGRO;
+        if(v.padre.izquierdo == v) if(h.derecho != null) ((VerticeRojinegro)h.derecho).color = Color.NEGRO;
+        if(v.padre.derecho == v) if(h.izquierdo != null) ((VerticeRojinegro)h.izquierdo).color = Color.NEGRO;
 
         if(v.padre.izquierdo == v) super.giraIzquierda(p);
         else super.giraDerecha(p);

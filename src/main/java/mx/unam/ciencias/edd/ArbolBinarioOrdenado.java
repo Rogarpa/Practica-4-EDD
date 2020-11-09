@@ -251,7 +251,7 @@ aux = aux.derecho;
             k.izquierdo.padre = k.padre;
             
             if(k.padre != null){
-                if(k.padre.izquierdo != null && k.padre.izquierdo.elemento.equals(k.elemento)) k.padre.izquierdo = k.izquierdo;
+                if(k.padre.izquierdo != null && k.padre.izquierdo == k) k.padre.izquierdo = k.izquierdo;
                 else k.padre.derecho = k.izquierdo;
             }else raiz = k.izquierdo;
             
