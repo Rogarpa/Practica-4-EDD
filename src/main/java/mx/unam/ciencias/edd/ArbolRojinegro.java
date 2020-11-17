@@ -40,8 +40,6 @@ public class ArbolRojinegro<T extends Comparable<T>>
          * @return una representación en cadena del vértice rojinegro.
          */
         public String toString() {
-            if(color == Color.ROJO && elemento == null) return "R{" + "null" + "}";  
-            if(color == Color.NEGRO && elemento == null) return "N{" + "null" + "}";  
             if(color == Color.ROJO) return "R{" + elemento.toString() + "}";  
             else return "N{" + elemento.toString() + "}";  
 
@@ -186,6 +184,8 @@ public class ArbolRojinegro<T extends Comparable<T>>
         Vertice encontrado = vertice(busca(elemento));
         if(encontrado == null) return;
 
+
+        elementos--;
         if(encontrado.izquierdo != null && encontrado.derecho != null)
             encontrado = intercambiaEliminable(encontrado);
         if(encontrado.izquierdo == null && encontrado.derecho == null){
@@ -215,6 +215,7 @@ public class ArbolRojinegro<T extends Comparable<T>>
             else if(hijastro.padre.izquierdo == hijastro) hijastro.padre.izquierdo = null;
             else hijastro.padre.derecho = null;
         }
+
         
     }
 
